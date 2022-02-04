@@ -1,0 +1,129 @@
+*--------------------Create Directory--------------------*
+
+
+  1. For create single directory
+         #mkdir /india
+       
+       
+  2. For create multiple directory
+          #mkdir usa china pak
+
+
+  3. For create directory path (directory inside directory)
+          #mkdir-p /red/green/blue/black
+
+
+  4. For create number of directory
+          #mkdir /student{1..10}
+        
+        
+*--------------------For Create File--------------------*
+
+Touch:
+Touch command is use for create empty file, we can’t write data in a file, can’t edit or save file.
+
+  1. Create single file with touch command
+          #touch notes
+
+  2. Create multilpefile
+          #touch math chemphys
+
+  3.Create number of files
+          #touch books{1..10}
+          
+          
+*--------------------Create File with CAT command--------------------*
+
+Cat command is use for create file, add data in file, read file, we can also append file but we cant edit file.
+
+   Syntax of cat command
+       #cat <option> <file name>
+
+  Options:
+
+   >   For write data in file
+   <   For read data in a file
+   >>  For append file
+
+
+  1. For create and write file
+         #cat > data
+
+  2. For read file
+         #cat < data
+
+  3. For Append file
+         #cat >> data
+         
+         Ctrl+d is used for write and quit file (save & exit)
+         
+         
+*--------------------For Copy and Paste--------------------*
+
+  cp:
+     cp command is used for copy and paste file or directory
+
+
+  Syntax:
+     #cp <option> <source> <destination>
+
+
+  Options
+
+       -r for recursive
+       -v for verbose
+       -f for forcefully
+
+
+  For copy file
+      #cp -rvf /root/anaconda-ks.cfg /home
+
+
+  For copy all data which start form D alphabet
+      #cp -rvf /root/D* /home
+      
+
+*--------------------For Remove File OR Directory--------------------*
+
+  rm:
+    rm command is used for delete file or directory
+
+
+  Syntax:
+    #rm <option> <destination>
+
+
+  Options
+    -r for recursive
+    -v for verbose
+    -f for forcefully
+
+
+  For delete file or directory
+     #rm -rvf /india/pune
+
+  For delete File or Directory which start form D alphabet
+     #rm -rvf /india/D*
+
+  For delete all database of current directory
+     #pwd
+     #rm-rvf*
+     
+     
+*--------------------For move or rename file/directory --------------------*     
+
+  mv :
+    > mv stands formove,
+    > mv command is used to move one or more files or directories from one place to another.
+    > It is also used for rename file or directory.
+
+
+  Syntax:
+    #mv <source > <destination>
+
+
+  For move file or directory
+    #mv /home/nagar /root/Desktop
+
+  For rename file or directory
+    #mv india bharat
