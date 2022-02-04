@@ -1,0 +1,25 @@
+*--------------------File System Hierarchy--------------------*
+                                                              
+  / = root - home - bin - sbin - dev - var - mnt - media - user - etc - opt
+  
+  
+  
+  
+*--------------------Commands--------------------*  
+
+  > /                 := the base of linux directory is the root
+  > /root             := it is the home directory for root
+  > bin               := contains binary executable coomands used by all the users of the system are located here E.G. ps, ls, ping, grep, cp
+  > #pwd              := it shows present working directory
+  > #ls               := it shows available directory
+  > #uname            := it shows name of kernel (OS)
+  > #cd               := it use for change directory
+  > #clear            := it use for clera screen
+  > #whoami           := it shows currently login user name
+  > #history          := it shows list of previously used name
+  > #date             := it shows time and date
+  > ~                 := tid operator (Home Directory)
+  > !                 := no. of commands
+  > bash              := provide us terminal user interface (Bourne again shell)
+  > cd..              := back
+  
