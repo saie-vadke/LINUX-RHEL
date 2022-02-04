@@ -1,0 +1,58 @@
+*--------------------Create File with VIM command--------------------*
+
+  vim (visual Improved)
+     > vim is improved version of vi editor which distributed in unix OS
+     > vim command is used to create, edit and append data in file
+   
+  
+  vim work in 3 modes
+      1. command mode
+      2. insert mode
+      3. extended mode
+      
+   
+  Syntax:
+      #vim <name of file>
+      
+      
+  Eg.
+     #vim India
+     
+  Press enter, by default we comes into command mode
+  
+  
+   vim working mode
+           # vim india
+                then press i/a/o for insert text  (for insert mode)
+                shift + :  (for extended mode)
+                Esc for (command mode)
+                wq  write and quite
+                
+                
+*--------------------Mode Operations--------------------*                
+                
+      > yy                = for copy line 
+      > yw                = copy word
+      > dd                = delete line
+      > dw                = delete word
+      > nyy               = copy no. of lines
+      > ndd               = delete no. of lines
+      > gg                = top of the file
+      > G                 = bottom of the file
+      > p                 = for paste
+      > u                 = undo
+      > ctrl + r          = redo
+      
+      
+  Insert mode operations
+       it is used for insert data i a file
+     
+  Extended mode operation
+       :w   write (save)
+       :q   Quite (exit)
+       :wq  write and quite (save and exit)
+       
+   ! add this mark for forcefully operation
+   
+        :se nu    for provide serial number to lines
+        :se nonu  remove number to lines
