@@ -1,0 +1,92 @@
+*--------------------What is User--------------------*
+
+  > A user is another name of an account capable of logging into a computer.
+  >A user is a individual who uses the available hardware and software resources.
+  
+  
+*--------------------Type of User--------------------* 
+
+  1. System User (Privilege/Administrative)
+  2. Normal User (Non-privilege/Secondary)
+  
+  
+1. System User:
+    It is created by OS automatically.
+  ◦ Eg.
+     Root or Administrator
+     
+2. Normal User:
+   It is created by privilege/Administrator user
+   ◦ Eg.
+      Student,Sachin,Ajay
+     
+     
+*--------------------Database Files for User account--------------------*   
+
+  > User Properties - /etc/passwd
+  > Password Properties - /etc/shadow
+  
+  
+
+*--------------------Create User--------------------*  
+ 
+ > Create user: 
+     #useradd ajay
+   
+ > check user account properties:
+     #grep ajay /etc/passwd
+  
+         ajay:x:1001:1001::/home/ajay:/bin/bash
+    
+ > create user account password:
+      #passwd ajay
+      
+ > check user password properties:
+     #grep ajay /etc/shadow
+     
+          ajay:@s$!1bc25f%:18002:0:99999:7:::
+          
+ > switch user account:
+      #su ajay
+      
+ > logout from user account:
+      #exit
+        OR
+      Press “ctrl+d” Key
+   
+ > Delete User account:
+      #userdel ajay
+      
+ > user account with home directory:
+      #userdel -r ajay
+      
+*--------------------Modify user account properties:--------------------*
+
+   We can modify existing user account property with following command
+   
+   > change user ID:
+       #usermod -u 2010 ajay
+       
+   > change home directory:
+       #mkdir /mnt/india
+       #usermod -d /mnt/india ajay
+       
+    > set comment:
+       #usermod -c “manager” ajay
+      
+    > change user login name:
+       #usermod -l devgn ajay
+       
+    > change login shell:
+       #usermod -s /sbin/nologin ajay
+       
+    > lock user password:
+       #usermod -L ajay
+       
+    > unlock user password:
+        #usermod -U ajay
+        
+    > set password expiry date:
+        #usermod -e 2020-02-15 ajay
+        
+        
