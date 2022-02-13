@@ -1,0 +1,55 @@
+*--------------------What is Group--------------------*
+
+  > Group is collection of user accounts which is very use full to administrator for manage and apply permission on number of users.
+  
+  
+*--------------------Types of Group--------------------*
+
+  1. Primary Group
+  2. Secondary Group
+  
+  
+  1. Primary Group: 
+    > Primary group create and delete with user account operation
+    
+  2. Secondary Group:
+    > Secondary group create and delete by privilege user.
+    
+  
+  
+  
+> Databsae file of Gropu account:
+  Group Properties -         /etc/group
+  Group Admin Properties -   /etc/gshadow
+  
+> For Add Group Account:
+  #groupadd ibmgrp
+  
+> For Check Group Account Properties:
+  #grep ibmgrp /etc/group
+  
+       Ibmgrp:x:1001:ajay,vijay,sachin
+       
+> For check Gropu Admin Properties:
+  #grep ibmgrp /etc/gshadow
+      
+      Ibmgrp:!::
+     
+> For Delete Gropu Account:
+  #groupdel ibmgrp
+  
+> For Change Group ID:
+  #groupmod -g 2020 ibmgrp
+  
+> For Add Single Member in Group:
+  #gpasswd -a ajay ibmgrp
+  
+> For Add multiple member in Group:
+  #gpasswd -M rahul,virat,rohit ibmgrp
+  
+> For Remove Group Member:
+  #gpasswd -d virat ibmgrp
+  
+> For make Group Admin:
+  #gpasswd -A sachin ibmgrp
+    
