@@ -1,0 +1,100 @@
+*--------------------Linux File System Permission--------------------*
+
+  > Access to any file or directory in Linux are controlled by file permission.
+  
+  
+*--------------------Types of File Permission--------------------*
+
+  1.Basic Permission
+  2.Special Permission
+  3.Access Control List (ACL) Permission
+  
+*-------------------- 1. Basic Permission:--------------------*  
+  
+  1. Basic Permission:
+    Linux basic file permission is very simple and flexible to apply.
+    
+  > For Check File Pemission:
+    #ls-l/notes.txt
+    
+      -rw-r—r--. 1 root root0 Jan 4 14:59 /notes.txt
+
+     Permission
+     Link
+     Owner
+     Group owner
+     Size of file
+     Date & time of file creation
+     Name of file
+  
+  > For Check Directory Permission:
+    #ls -ld /india
+    
+ *** Permission Group ***
+ 
+ > There are three permissions groups:
+   a. Owner
+   b. Group
+   c. Other
+   
+   Describe The Permission Group:
+     Permission                                           Description
+   1. Owner (u)                                  Permissions used forthe owner of the file
+   2. Group (g)                                  Permissions used by members of the group
+   3. Other (o)                                  Permissions used by all other users
+   
+   
+   Permission Set:
+     Permission                             Access for a file                            Access for a directory
+   1. Read (r)                         display file contents and copy the file.          View contents of directory
+   2. Write (w)                        modify the file contents.                         modify the contents of a directory.
+   3. Execute (x)                      execute the file if it is an executable.          Allowuse of cd command to access the directory
+   
+ Permission with number and Symbol:
+      Number                                 Permission Type                    Symbol
+    1. 0                                      No Permission                      ---
+    2. 1                                      Execute                            --x
+    3. 2                                      Write                              -w-
+    4. 3                                      Execute + Write                    -wx
+    5. 4                                      Read                               r--
+    6. 5                                      Read + Execute                     r-x
+    7. 6                                      Read + Write                       rw-
+    8. 7                                      Read + Write +Execute              rwx
+    
+    
+ > For Change Permission:
+ 
+    For add read permission to owner
+         #chmodu+r/notes.txt
+         
+    For add read write permission to group
+         #chmodg+rw/notes.txt
+
+    For remove read permission to others
+         #chmodo-r /notes.txt
+         
+         
+  > For Change Ownership:
+     Syntax:
+        #chown<user name><file/directory name>
+        
+     eg.
+        #chownajay/notes.txt
+        
+     
+  > For Change Group Ownership:
+    Syntax:
+       #chgrp<group name> <file/directory name>
+
+    eg.
+       #chgrpibmgrp/notes.txt
+       
+       
+       
+   > set Permission with Numeric value:
+      r (read) = 4
+      w (write) = 2
+      x (execute) = 1
+      
+     For set permission with numeric value
+        #chmod751 /india
