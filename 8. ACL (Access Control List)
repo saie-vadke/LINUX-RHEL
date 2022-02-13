@@ -1,0 +1,31 @@
+*--------------------ACL--------------------*
+
+  > Access control list (ACL) provides an additional, more flexible permission mechanism for file systems
+  > Access control list is service which is use for providing special permission to specific user and group to particular directories and file
+  
+*--------------------Use of ACL--------------------*
+
+  > Think of a scenario in which a particular user is not a member of group created by you but still you want to give some read or write access, how can you do it
+     without making user a member of group, here comes in picture Access Control Lists, ACL helps us to do this trick.
+     
+ 
+ > For Check ACL Permission:
+   Syntax:
+      #getfacl <name of file or directory>
+   eg.
+      #getfacl /experia
+      
+ > For Set ACL Permission to user:
+      #setfacl -m u:ajay:rwx /experia
+      
+ > For Remove ACL Permission of User:
+      #setfacl -x u:ajay: /experia
+      
+ > For Set ACL Permission to Group:
+      #setfacl -m g:sonygrp:rwx /experia
+      
+ > For Remove ACL Permission of Group:
+      #setfacl -x g:sonygrp: /experia
+      
+ > for Remove all ACL Permission:
+      #setfacl -b /experia
