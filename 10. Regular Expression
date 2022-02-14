@@ -1,0 +1,124 @@
+*--------------------Regular Expression--------------------*
+
+   Regular expressions are special characters which help search data, matching complex patterns.
+   
+   
+1. GREP (Global Regular Expression Print):
+     The grepfilter searches a file for a particular pattern of characters, and displays all lines that contain that pattern.
+     
+     > Search word string in file:
+           #grep root /etc/passwd
+           
+     > Serach a string in multiple files:
+           #greproot/etc/passwd/etc/group
+           
+     > Search string insensitive in file:
+           #grep -i Root /etc/passwd
+           
+     > Serach a string in all files recursively:
+           #grep -r root /
+  
+     > Inverting a string match:
+           #grep -v root /etc/passwd
+           
+     > Display the string match totla line no:
+           #grep -c root /etc/passwd
+           
+     > Display the files name that matches the string:
+           #grep -l root /etc/passwd /etc/shadow
+           
+     > Display the files name that do not contains the string:
+           #grep -L root /etc/passwd /etc/shadow
+           
+     > Display the string match line with number:
+           #grep -n root /etc/passwd
+           
+     > Display the lines that start with a string:
+           #grep ^root /etc/passwd
+           
+     > Display the lines that end with a string:
+           #grep /bin/bash$ /etc/passwd
+           
+     > Serach and redirect output in a new file:
+           #grep root /etc/passwd > /mnt/find.txt
+           
+     
+     
+     
+2. Find:
+    The LinuxFind Commandis one of the most important and much used command in Linux systems.
+    Find command used to search and locate list of files and directories based on conditions you specify for files that match the arguments.
+    Find can be used in variety of conditions like you can find files bypermissions,users,groups,file type,date,sizeand other possible criteria.
+    
+    
+    > find files under home directory:
+          #find /home -name india.txt
+          
+    > find files with SUID permission:
+          #find / -perm 4755
+          
+    > find files with GUID permission:
+          #find / -perm 2644
+          
+    > find files with Sticky bit permission:
+          #find / -perm 1755
+         
+    > using find command based on users:
+          #find / -user root
+          
+    > using find command based on groups:
+          #find / -group ibmgrp
+          
+    > search the file with less than 10 mb in a folder:
+          #find /tmp -size -10M
+          
+    > serach the file with more than 10MB in a folder:
+          #find /tmp -size +10M
+          
+          
+          
+          
+3. WC (Word Count):
+    The wccommand is use for the count word and line numbers.
+    
+    > count numbers of line:
+          #wc -l /etc/passwd
+          
+    > count numbers of word:
+          #wc -w /etc/passwd
+         
+    
+    
+    
+5. HEAD:
+    Head command is used for to display top line of the file.
+    
+    > display top 10 lines of file:
+          #head /etc/passwd
+          
+    > display top specific no line of files:
+          #head -n 15 /etc/passwd
+          
+    
+    
+    
+6. TAIL:
+     Tail command is used for to display the bottom line of the file.
+     
+     > display bottom 10 lines of the file:
+           #tail /etc/passwd
+           
+     > display bottom specific line of the file:
+           #tail -n 5 /etc/passwd
+           
+     
+     
+     
+**********Exam Que on Grep**********
+ 
+ 
+ Search for the string 'strato' in the file /usr/share/dict/words & copy this to a file /root/lines.txt.The new file should not have any blank spaces or lines.
+ The order of the names in the new file should be same as the order in which it appears in the original file
+ 
+ 
+#grep strato /usr/share/dict/words > /root/lines.txt
