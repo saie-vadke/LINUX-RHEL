@@ -1,0 +1,30 @@
+*--------------------Swap Memory--------------------*
+
+   Swap space is the second type of memory in modern Linux systems.
+   The primary function of swap space is to substitute disk space for RAM memory when real RAM fills up and more space is needed.
+   It is virtual RAM memory which is created from physical partition.
+   Expert always suggest create swap approximately dual size of physical RAM.
+   
+   
+*--------------------Steps for Managed Swap Memory--------------------*
+
+  1. Check existing swap space (memory)
+        #free -m
+
+  2. Create new swap memory
+        For create new swap create partition with swap ID.
+        #partprobe /dev/sdb
+        #mkswap /dev/sdb1
+
+  3. For power on swap memory
+        #swapon /dev/sdb1
+
+  4. For permanent mount swap memory
+       #vim /etc/fstab /dev/sdb1 swap swap defaults 0 0
+
+  5. For check swap space
+       #free -m
+  
+*--------------------Exam QUE--------------------*
+
+  Extend/Create your system swap memory 850 MB. (mount swap with UUID)
