@@ -1,0 +1,137 @@
+*-------------------- Disk Management in Linux--------------------*
+
+
+*-------------------- Disk Partitioning--------------------*
+  Disk partitioning allow a hard drive to be divided into multiple logical storage units called aspartition.
+  Separating a disk into partition allow administrator to can use different partition to perform different functions.
+  
+  
+*-------------------- Disk Naming Convention--------------------*
+  Linux maintain disk naming convention for SATA ,PATA and Virtual Disk as follows…
+  
+  
+*-------------------- For SATA --------------------*
+
+DISK 1 -   /dev/sda                                            DISK 2 -    /dev/sdb
+
+Partition 1 /dev/sda1                                          Partition 1 /dev/sdb1
+Partition 2 /dev/sda2                                          Partition 2 /dev/sdb2
+Partition 3 /dev/sda3                                          Partition 3 /dev/sdb3
+.                                                              .
+.                                                              .
+.                                                              .
+
+
+*-------------------- For PATA --------------------*
+
+DISK 1 -   /dev/hda                                            DISK 2 -    /dev/hdb
+
+Partition 1 /dev/hda1                                          Partition 1 /dev/hdb1
+Partition 2 /dev/hda2                                          Partition 2 /dev/hdb2
+Partition 3 /dev/hda3                                          Partition 3 /dev/hdb3
+.                                                              .
+.                                                              .
+.                                                              .
+
+
+
+*-------------------- For Virtual --------------------*
+
+DISK 1 -   /dev/vda                                            DISK 2 -    /dev/vdb
+
+Partition 1 /dev/vda1                                          Partition 1 /dev/vdb1
+Partition 2 /dev/vda2                                          Partition 2 /dev/vdb2
+Partition 3 /dev/vda3                                          Partition 3 /dev/vdb3
+.                                                              .
+.                                                              .
+.                                                              .
+
+
+
+
+*-------------------- Partition Types --------------------*
+  Partition divide into three types
+           1.Primary Partitions
+           2.Extended Partitions
+           3.Logical Partitions
+           
+           
+  1.Primary Partitions:
+      The number of partition was limited from the very beginning and we can create maximum four partitions. These partitions called primary partitions.
+      
+  2.Extended Partitions:
+      Extended partition use to overcome limit of primary four partition, if we want more than four partition then we can create one of the extended partition 
+      within a primary partition.
+      
+  3.Logical Partitions:
+      A Logical partition is a partition that created inside the extended Partition.
+      
+  
+*-------------------- What is file system --------------------*
+  A file system is the method and structure that an operating system use to keep files on disk or partition, that is a way of how files are stored on the disk.
+   Eg. ext2, ext3, ext4, xfsetc.
+   
+   A. EXT (Extended file system):
+      This is the first Linux file system. It was used in early versions of Linux. It has been removed from RHEL.
+      
+   B. EXT2 file system:
+      This is the second generation of EXT file system.
+      It provides very basic features of file system.
+      It was developed in 1980.
+      It was the default file system before RHEL5.
+      It has been deprecated in RHEL7 and would be removed in next version.
+      
+   C. EXT3 file System:
+      This is third generation of EXT file system. This was the default file system in RHEL5. It includes several enhanced features.
+      ---It supports file systems up to 16TiB in size.
+      ---It supports file up to 2TiB in size.
+      ---It supports up to 32000 subdirectories.
+      
+   D. EXT4 file System:
+     This is fourth generation of EXT file system. This was the default file system in RHEL6.
+     ---It supports file systems up to 1EiB.
+     ---It supports file up 16TiB in size.
+     ---It supports unlimited directories.
+     ---It uses a series of contiguous physical blocks on hard disk known as extents. The extents are used to improve the performance of very large files.
+     
+   E. XFS (X-file system) file system:
+     ---This file system was developed by Silicon Graphics for their version of UNIX.
+     ---Later it was adopted by most Linux distributions including RHEL. This is the default file system in RHEL 7/8.
+     ---This file system is based on 64-bit extent. It uses journaling for metadata operations. It supports file systems and files of sizes up to 8EiB.
+     
+     
+     
+  > for create Disk Partitioning:
+      1. For Show Available Disk :
+            #fdisk -l
+            
+      2. For Show Specific Disk
+            #fdisk -l /dev/sdb
+            
+      3. For Create New Partition
+            #fdisk /dev/sdb
+            
+      4. For update partition table without reboot system
+            #partprobe /dev/sdb
+            
+      5. Create file system on partition (Format)
+            #mkfs.ext4 /dev/sdb1
+                    or
+            #mkfs -t ext4 /dev/sdb1
+            
+      6. For mount disk partition
+            #mkdir /data
+            #mount /dev/sdb1 /data
+            
+      7. For permanent mount disk partition
+            #vim /etc/fstab /dev/sdb1 /data ext4 defaults 0 0
+            
+            :wq
+            
+      8. For mount all partition listed in fstabfile
+            #mount -a
+            
+      9.For show mounted partition
+            #mount
+              Or
+            #df -h
