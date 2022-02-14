@@ -1,0 +1,154 @@
+*--------------------LVM (Logical Volume Manager)--------------------*
+
+> Storage technology plays a important role in improving the availability, performance, and ability to manage Linux servers.
+> One of the most useful and helpful technology to Linux system administrator is Linux Logical Volume Manager(LVM).
+> LVM is a widely-used technique and extremely flexible disk management scheme for deploying logical rather than physical storage. With LVM, system administrator can easily
+  resize and extend the logical drive when it is required.
+
+
+*--------------------LVM Created in Three Steps--------------------*
+            1. Physical Volume (PV)
+            2. Volume Group (VG)
+            3. Logical Volume (LV)
+            
+            
+
+*--------------------LVM structure--------------------*     
+
+
+            PV ------------------  --------------------LV
+                                  |
+                                  |
+            PV ------------------ VG
+                                  |
+                                  |
+            PV ------------------- --------------------LV
+            
+            
+    
+     1. Physical Volume (PV):
+         Physical Volume create from One or more entire hard disks or partitions.
+         
+     2. Volume Group (VG):
+         A volume group (VG) is created using one or more physical volumes. You can think of a volume group as a single storage unit.
+         The default size of PE is 4MB
+         
+     3. Logical Volume (LV):
+         Logical volumes are block devices which are created from the volume group.
+         It is use to store actual data like partition after create the file system.
+            
+ 
+*--------------------What is Extents?--------------------*   
+
+    Each volume within a volume group is segmented into small, fixed-size chunks called extents.
+    The extents on a physical volume are called physical extents, while the extents of a logical volume are called logical extents.
+            
+*--------------------Steps for Managed LVM--------------------*             
+
+                               Step I : Create Physical Volume(PV)
+                               
+             Step1 : For create PV
+                     #pvcreate /dev/sdb1
+                   
+             Step2 : For Display PV
+                     #pvdisplay /dev/sdb1
+                   
+            
+            
+            
+                               Step II : Create Volume Group(VG)
+                               
+             Step 1: For Create Volume Group default PE size
+                     #vgcreate engineering /dev/sdb1
+                     
+             Step 2 : For display volume group
+                      #vgdisplay engineering
+                      
+                                 OR
+                                 
+              For Create VG with Specific PE (physical Extends) Size
+                      #vgcreate -s 8 engineering /dev/sdb1
+                      
+                      
+                      
+                      
+                      
+                                Step III : Create Logical Volume (LV)
+                                
+             Step1: For Create LV with Specific PE (physical Extends) Size
+                    #lvcreate -l 100 –n /dev/engineering/comp
+                    
+            Step 2: For display LV
+                    #lvdisplay /dev/engineering/comp
+                    
+                                  OR
+                                  
+                   For Create LV with Specific MB Size
+                    #lvcreate -L 100 –n /dev/engineering/comp
+                    
+                    
+                    
+                    
+                    
+                                Step IV : Create File System
+                                
+           Step1: For create partition on LV comp
+                  #mkfs.ext4 /dev/engineering/comp
+                  
+           Step2: For permanent mount partition
+                  #mkdir /comp1
+                  #vim /etc/fstab /dev/engineering/comp /comp1 ext4 defaults 0 0
+                  
+               :wq
+                  #mount -a
+                  #mount
+                  
+               OR
+               
+                  #df -h
+                  
+                  
+                  
+                  
+                  
+                                 Step V : Resize VG
+            
+            For resize VG create PV and then extend VG
+          Step 1: For extend VG
+                  #vgextend engineering /dev/sdb2
+                  
+          Step 2: For reduce VG
+                  #vgreduce engineering /dev/sdb2
+                  
+                  
+                  
+                  
+                                   Step VI : Resize LV
+                                   
+          Step 1: For extend LV
+                  #lvextend -L +100 /dev/engineering/comp
+                  
+          Step 2: For reduce LV
+                  #lvreduce -L -50 /dev/engineering/comp
+                  
+                  
+                  
+                  
+                                  Step VII : Resize LV,VG,PV
+                                  
+          Step 1: Remove Permanent Mounting Record
+                  #vim /etc/fstab
+                  
+         Step 2: Unmount LVM
+                 #umount /comp1
+                 
+         Step 3: Remove LV
+                 #lvremove /dev/engineering/comp
+                 
+         Step 4: Remove VG
+                #vgremove engineering
+         Step 5: Remove PV
+                #pvremove /dev/sdb1
+                
+         Step 6: Remove Partition
+                 #fdisk /dev/sdb
