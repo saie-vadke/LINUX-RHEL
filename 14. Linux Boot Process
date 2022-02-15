@@ -1,0 +1,89 @@
+*--------------------Linux Boot Process--------------------*
+
+  Booting a computer refers to the process of powering on the computer and starting the operating system.
+  The boot process loads the operating system into main memory or the random access memory (RAM) installed on your computer.
+  
+  
+*--------------------Run Level--------------------*
+
+  Runlevel is a state of a machine that defines how a machine should be login, what services and scripts should run when a machine starts.
+  Once the real file system is mounted, then kernel runs the first process i.e init (Systemd)
+  Runlevel are defined from 0 – 6. 
+  
+  
+  > There are 7 Run Levels:
+       1. Runlevel 0 – shut down the system
+       2. Runlevel 1 – single user mode
+       3. Runlevel 2 – multiuser mode without networking
+       4. Runlevel 3 – multiuser with text login screen
+       5. Runlevel 4- customized runlevel (not in use)
+       6. Runlevel 5 – System provide login prompt (GUI)
+       7. Runlevel 6 – Reboot System
+       
+       
+       
+       
+    Run Level                    Target Units                                Description 
+    
+       0                        runlevel0.target,                           Shut down and power off
+                                 poweroff.target
+
+       1                         runlevel1.target,                          Set up a rescue shell
+                                  rescue.target 
+                                  
+     2,3,4                      runlevel[234].target,                       Set up a nongraphical multi-user shel
+                                multi-user.target  l
+                                
+       5                         runlevel5.target,                           Set up a graphical multi-user shell
+                                  graphical.target
+
+       6                          runlevel6.target,                           Shut down and reboot the system
+                                   reboot.target 
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   
+    > for check current (Default) runlevel:
+            #systemctl get-default
+            
+    > for set runlevel 3 (Permanent): 
+            #systemctl set-default multiuser.target
+            
+    > for set runlevel 5 (Permanent):
+            #systemctl set-default graphical.target
+            
+            
+            
+*--------------------Steps for reset boot password--------------------* 
+
+        Step 1:
+              Reboot computer and press “Esc” key when show kernel line
+        
+        Step 2:    
+               Select kernel lineand press the "e" key to edit
+               
+        Step 3:
+               Go to the line that include "Kernel version" and go to the end of line type "rd.break" and press "ctrl + x" key
+               
+        Step 4:
+               now type command 
+               #mount -o remount,rw /sysroot
+               #chroot /sysroot
+               
+        Step 5:
+               now press enter and set new password with #passwd command 
+               
+        Step 6:
+               type command
+                #touch /.autorelable 
+                
+        Step 7:
+               enter the exit command twice
+               
+        Step 8:
+               after reboot system show login prompt now login with new password 
+               Once the reboot has completed you will be able to use the root account with your newly set password.
+        
+            
