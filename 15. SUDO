@@ -1,0 +1,18 @@
+*--------------------SUDO--------------------*
+
+    sudo("superuser do", or "switch user do") allows a user with properpermissionsto execute a command as another user, such as thesuperuser.
+    sudoallows a permitted user to execute a command as another user, according to specifications in the/etc/sudoersfile.
+    
+
+*--------------------how to provide SUDO Privilege--------------------*
+
+    For edit configuration file:
+        # vim /etc/sudoers
+        root ALL=(ALL)   ALL
+        amir ALL=(ALL)   ALL (add this line appro. 101 line)
+        
+    :wq
+    
+    eg:
+        #su amir
+        amir$sudo useradd salman
