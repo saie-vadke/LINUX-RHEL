@@ -1,0 +1,60 @@
+*--------------------Manage RHEL Network--------------------*
+
+    > for show IP address:
+        #ifconfig
+           Or
+        #ip addr
+     
+*--------------------Configuring Networking with nmcli--------------------*     
+    
+    Network Manager is a daemon that monitor and manages network settings. 
+    nmcli command used to manage networking in rhel8
+    
+   > For Show all list of connection
+        #nmcli con show
+
+   > For show active connection
+        #nmcli con show --active
+
+   > For show specific connection
+        #nmcli con show “citynet”
+        
+   > for show device status 
+        #nmcli dev status
+        
+   > for create new connection with nmcli
+        #nmcli con add con-name “citynet” ifname enp0s3 type ethernet ipv4.add 172.25.0.10/16 gw4 172.25.0.1 ipv4.dns 172.25.0.1 connection.autoconnect yes ipv4.method manual
+        
+   > for modify connection to add dns
+        #nmcli con mod “citynet” ipv4.dns 172.25.0.254
+        
+   > For add optional DNS server
+        #nmcli con mod “citynet” +ipv4.dns 172.25.0.254
+       
+   > For show Connection in details
+        #nmcli con show citynet
+        #nmcli con show --active
+       
+   > for activate new connection
+        #nmcli con up ”citynet”
+        #nmcli con show --active
+       
+   > for deactivate connection
+        #nmcli con down citynet
+       
+   > for remove existing connection 
+        #nmcli con delete citynet
+       
+        IP Address Configuration File Location
+       
+        #cd /etc/sysconfig/network-scripts/
+        #ls
+       
+   > for set hostname
+        #hostnamectl set-hostname it.citynet.com
+       
+        For show hostname
+        #hostname
+       
+   > configuring networking with nmtui
+        #nmtui
