@@ -1,0 +1,45 @@
+*--------------------SSH (Secure Shell)--------------------*
+
+    SSH is a protocol used to securely log onto remote systems. It is the most common way to access remote Linux and Unixlike servers.
+    
+    
+    > for access remote system with SSH
+        Start and enable ssh service
+        #systemctl start sshd
+        #systemctl enable sshd
+        #systemctl restart sshd
+        
+   > For Connect remote system:
+        #ssh root@172.25.0.10
+        
+   > For Check:
+        #ifconfig
+        
+   > For Logout :
+        #exit (ctrl+d)
+        
+        
+*--------------------SSH key based authentication--------------------*
+
+    > For Generate key
+        #ssh-keygen
+        
+    > For transfer key to remote system
+        #ssh-copy-id -i 172.25.0.10
+        
+Now,try to login remote system password not required
+#ssh root@172.25.0.10
+
+*--------------------Disable SSH root/user login--------------------*
+
+     > Edit configuration file:
+          # vim /etc/ssh/sshd_config
+          
+    PermitRootLogin no
+    DenyUsers amir
+
+          :wq
+
+          #systemctl restart sshd
+          #systemctl enable sshd
+        
