@@ -1,0 +1,92 @@
+*--------------------Job Automation--------------------*
+    Job automation allow us perform task automatically in OS by using tools.
+    This feature is very useful for administrator to assign task to OS whenever he is not present or perform daily basis work.
+    
+    
+*--------------------Two types of Job Automation--------------------*
+
+    1. at
+    2. crontab
+    
+    
+1. at:
+          at command is used to execute job only one time.
+          
+    > for set job with at command
+          #date
+          #at 8:10 AM
+          
+        at>useradd sachin
+        at>
+        
+        Ctrl+d (write & quit)
+        
+     > for show pending at job
+          #atq
+          
+     > for remove at job
+          #atrm 2
+          
+     > for restrict user from accessing at
+          #vim /etc/at.deny
+          Ajay (add here user name)
+          :wq (write&quit)
+          
+          
+2. crontab:
+           Crontab command is use for to execute job multiple time.
+           
+       > for start crond service
+            #systemctl start crond
+            
+       > for enable crond service
+            #systemctl enable crond
+            
+       > for set cron job 
+            #crontab -e
+            
+       > for set cron job 
+           #crontab -e
+           
+           
+           
+* field                    meaning                      allowed values
+# -------                ------------                   --------------
+
+* 1                        minute                            0-59
+* 2                        hour                              0-23
+* 3                        day of month                      1-31
+* 4                        month                             1-12 (or names, see below)
+* 5                        day of week                        0-7 (0 or 7 is Sun, or use names)
+
+
+
+        > for shows cron jobs of current users
+              #crontab -l
+              
+        > for remove cron jobs
+              #crontab -r
+                   Or
+              Go to the crontab file and remove job line
+              #crontab -e
+              
+        > for set cron job to other users
+              #crontab -u ajay -e
+              
+        > for show cron job to other users
+              #crontab -u ajay -l
+              
+        > for restrict user from crond service
+              #vim /etc/cron.deny
+              
+        > For check crontab log file
+              #tail -f /var/log/cron
+              
+        > exam que on cron tab
+              Create cron job /bin/echo hiya for user harry. Job should be run every day at 14.50
+              
+             Ans:
+             #crontab –u harry -e
+             50 14 * * * /bin/echo hiya
+             
+             :wq
