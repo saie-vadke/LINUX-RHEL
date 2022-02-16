@@ -1,0 +1,53 @@
+*--------------------Control Service and Daemons--------------------*
+
+
+*--------------------what is process--------------------*
+
+   A process is an instance of a particular executable ( .exe program file) running. A given application may have several processes running simultaneously.
+  
+  
+*--------------------what is Daemons--------------------*
+
+   The word "daemon" actually comes from the Greek language, meaning an "inner or attendant spirit" (Oxford American Dictionary).
+   This is a fitting name, as a computer daemon is a constantly running program that triggers actions when it receives certain input.
+   
+   
+ *--------------------what is Service--------------------*
+ 
+    A service is a program which responds to requests from other programs over some inter-process communication mechanism (usually over a network).
+    A service is what a server provides. For example, the NFS port mapping service is provided as a separate portmapservice
+    
+    
+ *--------------------Service Status--------------------*
+ 
+    1) Active(Running)
+    2) InActive(Not Running)
+    3) Enabled(Start at boot)
+    4) Disabled(Do not start at boot)
+    
+    
+
+ *--------------------Manage Service--------------------*
+ 
+    > display status of service
+          #systemctl status sshd
+          
+    > restart service
+          #systemctl restart sshd
+          
+    > stop service
+          #systemctl stop sshd
+          
+    > start service
+          #systemctl start sshd
+          
+    > permenant on service
+          #systemctl enable sshd
+          
+    > permenant off service
+          #systemctl disable sshd
+          
+    > determine service is enable
+          #systemctl is-enabled sshd
+          
+   
