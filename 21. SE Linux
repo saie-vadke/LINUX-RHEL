@@ -1,0 +1,48 @@
+*--------------------SE Linux (Secure Enhanced Linux)--------------------*
+
+  SELinuxgives that extra layer of security to the resources in the system.
+  It is designed to protect the server against misconfigurations and compromised daemons.
+  It put limits and instructs server daemons what files they can access and what actions they can take by defining a security policy.
+  
+
+*--------------------Mode of SE Linux--------------------*
+
+  There are three mode
+      1. Enforcing
+      2. Permissive
+      3.Disabled
+      
+      
+      
+  1. Enforcing:  
+               SELinuxsecurity policy is enforced.IF this is set SELinuxis enabled and will try to enforce the SELinuxpolicies strictly
+               
+  2. Permissive:
+                 SELinuxprints warnings instead of enforcing. This setting will just give warning when any SELinuxpolicy setting is breached
+                 
+  3.Disabled:
+              No SELinuxpolicy is loaded. This will totally disable SELinuxpolicies.
+              
+          
+          
+          
+          > for check current SELinux mode
+                  #getenforce
+                  
+          > for change SELinux Mode
+                  #setenforce 0
+                       or
+                  #setenforce permissive
+                  
+            Note:
+                  0    -for permissive
+                  1    -for enforcing
+                  
+          > for change SELinux mode permanently
+                  #vim /etc/selinux/config
+                  
+                  SELINUX=enforcing
+                  
+                  :wq(for write & quit)
+                  
+                  
