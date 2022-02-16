@@ -1,0 +1,184 @@
+*--------------------create physical Partition--------------------*
+
+     Create first partition of size 1 GB on disk named /dev/sdb
+     steps for creating partition.
+    
+      > For show available disk
+        #fdisk -l
+        #fdisk /dev/sdb to go inside the disk
+             n : for new partition
+    Create 1GB primary partition and save changes with following command
+             w: to save the created partition.
+             
+             
+*--------------------Format Partition--------------------* 
+
+   > For update partition
+        #partprobe /dev/sdb
+        
+   > For show partition
+        #fdisk -l /dev/sdb
+        
+   > For format partition
+        #mkfs.ext4 /dev/sdb1
+        
+       
+*--------------------For Mount Partition--------------------*   
+
+   > For mount partition
+        #mkdir /database
+        #mount /dev/sdb1 /database
+          Or
+        #vim /etc/fstab /dev/sdb1 /database ext4 defaults 0 0
+        :wq
+
+   > For show mounting
+        #mount -a
+            Or
+        #df -h
+            Or
+        #lsblk
+
+   > Create some database in partition
+         #mkdir /database/redhat{1..10}
+         #touch /database/imp{1..10}.txt
+         #ls
+         
+*--------------------increase the partition (ext4 fs)--------------------*
+
+         Before increment or decrement partition always recommended take backup of partition
+        > For show partition
+             #df -h
+             
+        > For unmount partition
+             #umount /database
+             #lsblk
+             #df -h
+             
+        > For remove partition
+             #fdisk /dev/sdb
+             Delete partition number 1 (sdb1)
+             d : it is for deleting partition
+             w : to save the changes
+             
+        > For update partition
+             #partprobe /dev/sdb
+             #fdisk -l /dev/sdb
+             
+             
+*--------------------create new partition again--------------------*       
+
+    > For create new partition
+          #fdisk /dev/sdb
+          
+          Now create partition with 1500M
+          it is asking to remove or save the ext4 signature, do not removing the ext4 signature.
+          
+          :N is for don’t remove the ext4 signature.
+          :w Press w for save and quit
+          
+    > For update partition
+          #partprobe /dev/sdb
+          
+    > For show partition list
+          #fdisk -l /dev/sdb
+          
+          
+*--------------------format the extended part of partition--------------------*           
+
+   > For Examine file system for errors
+         #e2fsck -f /dev/sdb1
+         
+   > For format the extended part of partition:
+         #resize2fs /dev/sdb1
+         
+   > For mount partition
+         #mount -a
+         #df -h
+         #lsblk
+         #cd /database
+         #ls
+         
+         
+*--------------------decrease or shrink partition--------------------*    
+
+        #umount /database
+ > Remove partition
+        #fdisk /dev/sdb
+        
+        :d (delete partition)
+        :p (check partition list)
+        :n (create new partition with 1000 MB)
+        
+         if asking to remove or save the ext4 signature, do not removing the ext4 signature.
+         
+        :N is for don’t remove the ext4 signature.
+        :w Press w for save and quit
+        
+  > For show partition list
+        #fdisk -l /dev/sdb
+        
+        
+*--------------------resize file system--------------------*
+
+  > For Examine file system for errors
+         #e2fsck -f /dev/sdb1
+         
+  > For format the extended part of partition:
+         #resize2fs /dev/sdb1
+         
+  > For mount partition
+         #mount -a
+         #df -h
+         #lsblk
+         #cd /database
+         #ls
+         
+         
+*--------------------mount partitions with xfs file system--------------------*     
+
+  > Create new partition 1 gb with xfs file system
+         #fdisk /dev/sdb
+         
+         :n ( create new partition with 1000MB)
+         :w
+         
+  > Check new created partition
+         #fdisk -l /dev/sdb
+         
+  > Create file system on /dev/sdb2
+         #mkfs.xfs /dev/sdb2
+         
+  > For mount partition
+         #mkdir /study
+         #vim /etc/fstab  /dev/sdb2 /study xfs defaults 0 0
+         
+         :wq
+         
+         
+*--------------------create Database--------------------*
+
+          #lsblk
+          #df –h
+  > Create some data in study directory
+          #cd /study
+          #mkdir secure{1..10}
+          #touch notes{1..10}.txt
+          #cd ..
+          
+          
+*--------------------extend XFS file system--------------------*
+
+    We have /dev/sdb2 partition with 1000 MB, now we extend it with 500MB
+    
+     > Remove partition
+             #fdisk /dev/sdb
+             
+             :d (remote partition /dev/sdb2)
+             :n ( create new partition with 1500 MB)
+             :w (save and quite)
+             
+             #fdisk -l /dev/sdb
+             
+     > For extend file system
+             #xfs_growfs /study
