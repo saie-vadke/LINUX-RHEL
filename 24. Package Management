@@ -1,0 +1,159 @@
+*--------------------Package Management-------------------*
+
+    All software on a Linux system is divided into packages that can be installed, uninstalled or upgrade.
+    In Linux distributions, a “package” refers to a compressed file archive containing all of the files that come with a particular application.
+    
+    
+*--------------------Package Architecture-------------------*
+
+    httpd-tools-2.4.6-7.el7.x86_64.rpm
+    ----------- ----------- ------ ----
+      Name    version.release architecture extention
+      
+     
+*--------------------Method of install Package-------------------* 
+
+    1. Standalone installation-
+        This method use for single or few no of computers.
+        Eg. Cd, dvd, pd etc.
+        
+        rpm : (Red Hat Package Manager)
+                RPM command is used to install package in Linux like (RHEL, CentOS and Fedora).
+                rpm command use for standalone installation.
+  
+        Drawback of rpm command :
+                1. We Cant install dependent software in single shot
+                2. It Does not wait for user confirmation.  
+                
+          > RPM command syntax:
+                #rpm <option> <name of package>
+                        Option:
+                        i -for install
+                        v -for verbose
+                        h -for hashes
+                        e -for erase
+                        q -for query
+           
+           > Install package with rpm:
+                 #rpm -ivh httpd-tools-2.4.6-7.el7.x86_64.rpm
+                
+                
+                
+                
+        
+    2. Network Installation-
+        This method is used for large number of computers.
+        Eg. Centralized Server
+        
+        
+        Yum: (Yellowdog Updater, Modified)
+              YUM is an open source package management tool for install rpm based packages in linux system Yum overcome all drawback of rpm command.
+              It allows users and system administrator to easily install, update, remove or search software packages on a systems.
+              
+              
+              Yum command syntax:
+                        #yum <option> <Name of Package>
+                              Options :
+                                        install         -for install
+                                        remove          -for uninstall
+                                        upgrade         -for upgrade
+                                        groupinstall    -for install group of application
+                                        groupremove     -for uninstall group of application
+                                        grouplist       -for show list of group
+                                        clean all       -for clean repository cache
+                                        list            -for show package list
+                                        
+                                        
+                         > Install package with yum:
+                              #yum install httpd*
+                              
+                                    Note :
+                                          For install package with yum command we need to set yum path of centralized server in our system (repo)
+                                          
+                         > step for create repository file:
+                              Step 1: Insert rhel 8.0 dvd and start VM:
+                                      attach RHEL8 iso file in VM.
+                                      
+                              Step 2: For show DVD mount point
+                                      #lsblk
+                                      
+                              Step 3: Go to yum repository
+                                      #cd /etc/yum.repos.d/
+                                      #rm -rvf *
+                                      
+                              Step 5: Create repo file
+                                      #vim server.repo
+                                            [app]
+                                            name=appstrea
+                                            baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-X86_64/AppStream
+                                            enabled=1
+                                            gpgcheck=0
+                                            [base]
+                                            name=baseos
+                                            baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-X86_64/BaseOS
+                                            enabled=1
+                                            gpgcheck=0
+                                      :wq
+                                            
+                              Step 6: #yum clean all
+                                      #yum repolist
+                                      #yum list
+                                      
+                                      
+                 > Setup static ip to server and client OS
+                          Eg. 192.168.1.2
+                          
+                 > Install Web server Package and start enable service
+                          #yum install httpd*
+                          #systemctl start httpd
+                          #systemctl enable httpd
+                          
+                 > Copy and paste all package in /var/www/html/
+                          #cd /run/media/root/RHEL-8-0-0-BaseOS-X86_64/
+                          #cp -rvf AppStream /var/www/html/
+                          #cp -rvf BaseOS /var/www/html/     
+                          
+                          
+                 > Create Repo file
+                      #cd /etc/yum.repos.d/
+                      #vim server.repo
+                          [app]
+                          name=appstream
+                          baseurl=http://192.168.1.2/AppStream
+                          enabled=1
+                          gpgcheck=0
+                          [base]
+                          name=baseos
+                          baseurl=http://192.168.1.2/BaseOS
+                          enabled=1
+                          gpgcheck=0
+                          
+                 > Setup Firewall Rule :
+                       #firewall-cmd --permanent -–add-service=http
+                       #firewall-cmd --reload
+                       #systemctl restart httpd
+                       
+                       
+             
+                       
+   Configure client side yum repo:
+   
+          #vim /etc/yum.repos.d/
+          #rm -rvf *
+          #vim servers.repo
+                  [app]
+                  name=appstream
+                  baseurl=http://192.168.1.2/AppStream
+                  enabled=1
+                  gpgcheck=0
+                  [base]
+                  name=baseos
+                  baseurl=http://192.168.1.2/BaseOS
+                  enabled=1
+                  gpgcheck=0
+            :wq
+            
+            
+          #yum clean all
+          #yum repolist
+          #yum install http*
