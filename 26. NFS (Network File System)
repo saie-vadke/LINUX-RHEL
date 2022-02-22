@@ -1,0 +1,71 @@
+*--------------------NFS (Network File System)--------------------*
+
+  Network File System is a distributed file system protocol originally developed by Sun Microsystems in 1984, 
+  it allowing a user on a client computer to access files over a computer network.
+  It use port number 2049
+  
+  
+*--------------------steps for configure NFS (Network File System)--------------------*
+
+    Configure following steps on Server
+          Step 1: Install Package
+                   #yum install nfs*
+                   
+          Step 2: Start nfs service
+                   #systemctl start nfs-server
+                   
+          Step 3: Create directory to share data
+                   #mkdir /nfsshare
+                   #chmod 777 /nfsshare
+                   
+          Step 4: Edit configuration file
+                  #vim /etc/exports
+                      /nfsshare 192.168.1.2(rw)
+                      or
+                      /nfsshare 192.168.1.0/24(rw)
+                      or
+                      /nfsshare *.example.com(rw)
+                  :wq
+                  
+          Step 5: Open Nfs Service In Firewall
+                  #firewall-cmd --permanent --add-service=nfs
+                  #firewall-cmd --reload
+                  
+          Step 6: Restart and enable nfs service
+                  #systemctl restart nfs-server
+                  #systemctl enable nfs-server
+                  #exportfs -avr
+                  
+                  
+*--------------------client side steps--------------------*      
+ 
+         Step1 : Install Package
+                  #yum install nfs-utils
+                  
+        Step 2: Create Directory for mount
+                  #mkdir /mydata
+                  
+                  
+*--------------------for temporary/Permanent mount--------------------*   
+
+       Step 3: For mount temporary :
+                # mount -t nfs 172.25.0.11:/nfsshare /mydata
+                
+       Step 4: For mount permanent :
+                # vim /etc/fstab
+                172.25.0.11:/nfsshare /mydata nfs defaults 0 0
+                :wq
+                #mount -a
+                #mount
+                
+                
+*--------------------test the working of nfs setup--------------------*   
+
+      Go to server and create file
+      
+          #cat > /nfsshare/nfstest.txt
+          
+          
+*--------------------at the nfs client end--------------------*
+
+      #cd /sharedata
