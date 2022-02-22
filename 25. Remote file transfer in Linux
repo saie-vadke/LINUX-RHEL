@@ -1,0 +1,47 @@
+*--------------------Remote file transfer in Linux--------------------*
+
+    In Linux for transfer file local to remote and remote to local use following command popularly.
+    
+            1. scp
+            2. rsync
+            
+            
+            
+      1. SCP:
+             scp is a command line tool for Linux systems for securely transfer files from local to remote server or vice a versa.
+             SCP uses SSH protocol for transferring files between two systems which is more secure than ftp
+             
+             
+*--------------------transfer file local to remote server--------------------*
+
+    For File :
+            #scp myfile.txt root@172.25.0.10:/mnt/
+            
+    For Directory :
+            #scp -r /india root@172.25.0.10:/mnt/
+            
+*--------------------transfer file remote server to local--------------------*
+
+   For File :
+            #scp root@172.25.0.10:/mnt/myfile.txt /root/Desktop/
+            
+   For Directory :
+            #scp -r root@172.25.0.10:/mnt/india /root/Desktop/
+            
+            
+            
+            
+            
+            
+            
+         2. RSYNC (remote sync):
+                               rsync is a most commonly used command for copying and synchronizing files and directories remotely as
+                               well as locally in Linux/Unix systems
+                               
+*--------------------transfer file local to remote server--------------------*
+
+         #rsync -rvh myfile1.txt root@172.25.0.10:/mnt/
+         
+*--------------------transfer file remote server to local--------------------*
+
+         #rsync -rvh root@172.25.0.10:/mnt/myfile1.txt /root/Desktop/
