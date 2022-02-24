@@ -1,0 +1,88 @@
+*-------------------- DHCP Server--------------------*
+
+    Dynamic Host Configuration Protocol.
+    It use port 67 & 68
+    It provide the every machine unique ip address dynamically.
+    The Communication between client and server to assign automatic ip
+    address is called DORA process.
+    
+    D=Discovery
+    O=Offer
+    R=Request
+    A=Assignment/Ack
+    
+    
+*--------------------DORA Process--------------------*
+
+    
+    
+                        
+                  <_________________DISCOVER___________________
+                  __________________OFFER_____________________>
+                  
+    DHCP SERVER                                                    DHCP CLIENT
+                  <________________REQUEST_____________________  
+                  _________________ACKNOWLEDGE_________________>
+                  
+                  
+                  
+                  
+                  
+*--------------------Configure DHCP Server--------------------*
+
+    Step 1:
+            Configure network settings
+            (static IP – 192.168.1.2/24)
+            
+            #nmtui
+            Or
+            #nmcli
+            
+   Step 2: 
+           Install the Packages
+           #yum install dhcp*
+           
+   Step 3:
+          Edit DHCP Configuration file
+          #vim /etc/dhcp/dhcpd.conf
+          
+          Copy dhcpd.conf.example and paste as a dhcpd.conf
+          #cp -r /usr/share/doc/dhcp-server/dhcpd.conf.example      /etc/dhcp/dhcpd.conf
+          
+          Now, edit configuration file
+          #vim /etc/dhcp/dhcpd.conf
+          
+  
+   Step 4:
+          Go to the line “A slightly different configuration for an internal subnet (number 46)
+          
+          Subnet 192.168.1.0 netmask 255.255.255.0
+          Range 192.168.1.3 192.168.1.103
+          
+          :wq
+          
+          #systemctl start dhcpd
+          #systemctl enable dhcpd
+          
+  Step 5: Firewall Setup
+         #firewall-cmd --permanent --add-service=dhcp
+        #firewall-cmd --reload
+
+        #systemctl restart dhcpd
+        
+  Step 6:
+         Go to client computer and set automatic ip configuration.
+         
+  Step 7:
+         Assign fix ip to client
+         host rhel8
+          hardware Ethernet 08:00:07:26:c0:a5;
+          fixed-address 192.168.1.100;
+          } (line 75)
+          
+          :wq
+          
+          #systemctl restart dhcpd
+          
+  Step 8:   
+         Go to client computer and check ip configuration
