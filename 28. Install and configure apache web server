@@ -1,0 +1,79 @@
+*--------------------Install and configure apache web server--------------------*
+
+    The Apache HTTP Server or simply Apache, is free and open-source crossplatform web server software developed and maintained by Apache Software Foundation.
+    Apache is a easy to learn and configure web server providing an ability to host websites mainly via HTTP or HTTPS protocols. Under RHEL 8 / CentOS 8 system
+    Apache webserver is know under name httpd.
+
+        It use following port number and service:
+        http = 80
+        https = 443
+        
+        
+*--------------------Install Package--------------------*    
+
+    #yum install http* -y
+    
+    
+*--------------------start and enable apache web server--------------------*  
+
+    # systemctl enable httpd
+    # systemctl start httpd    
+    
+*--------------------firewall setup--------------------*
+
+    #firewall-cmd --permanent --add-service=http
+    #firewall-cmd --reload
+    
+*--------------------Insert your website file--------------------*
+
+    By default the Apache web server will greet you with a default welcome page.
+    To disable the default Apache welcome page insert
+    your index.html into /var/www/html/ directory
+
+*--------------------Access your website--------------------*
+
+    To access your new sample website navigate your client web browser to either
+    
+    http://192.168.1.10
+    
+*--------------------create configuration file--------------------*
+
+    #cd /etc/httpd/conf.d/
+    
+    #vim server1.conf
+    <VirtualHost *:80>
+    ServerAdmin root@server1.example.com
+    ServerName server1.example.com
+    DocumentRoot /var/www/html
+    
+    </VirtualHost>
+    <Directory "/var/www/html">
+    <RequireAll>
+    Require all granted
+    </RequireAll>
+    </Directory>
+    wq
+    systemctl restart httpd
+    
+*--------------------Add Web Pages--------------------*
+
+    #mkdir /var/www/html/owndir
+    #restorecon -Rv /var/www/html
+    #cd /var/www/html/owndir
+    
+    #vim /etc/httpd/conf.d/server1.conf
+    (Add this)
+    <Directory "/var/www/html/owndir">
+    <RequireAll>
+    Require all granted
+    </RequireAll>
+    </Directory>
+    wq
+    
+    #systemctl restart httpd
+    
+*--------------------Access wesite page--------------------*
+
+    To access your new sample website navigate your client web browser to either
+    
+    http://192.168.1.10/owndir
