@@ -1,0 +1,84 @@
+*--------------------Install and configure apache web server--------------------*
+
+    The Apache HTTP Server or simply Apache, is free and open-source crossplatform web server software developed and maintained by Apache Software Foundation.
+    Apache is a easy to learn and configure web server providing an ability to host websites mainly via HTTP or HTTPS protocols. Under RHEL 8 / CentOS 8 system
+    Apache webserver is know under name httpd.
+
+        It use following port number and service:
+        http = 80
+        https = 443
+        
+*--------------------Create https website--------------------*       
+
+    The mod_ssl module provides SSL v3 and TLS v1.x support for the Apache HTTP Server.
+    
+*--------------------Install package--------------------* 
+
+    #vim httpd* openssl mod_ssl
+    
+*--------------------add record in host file--------------------* 
+
+    #vim /etc/hosts
+    192.168.1.10 server1.example.com
+    
+*--------------------start and enable apache web server--------------------*  
+
+    # systemctl enable httpd
+    # systemctl start httpd    
+    
+*--------------------firewall setup--------------------*
+
+    #firewall-cmd --permanent --add-service=http
+    #firewall-cmd --permanent --add-service=https
+    #firewall-cmd --reload
+    
+*--------------------Insert your website file--------------------*
+
+    By default the Apache web server will greet you with a default welcome page.
+    To disable the default Apache welcome page insert
+    your index.html into /var/www/html/ directory
+
+
+*--------------------Generate SSL certificate--------------------*
+
+    #openssl req -x509 -nodes -days 365 -newkey rsa:2048 -
+    keyout server.key -out server.crt
+    
+    #ls
+    
+    Copy generated key and crt at default location
+    
+    #cp -rvf server.crt /etc/pki/tls/certs/
+    #cp -rvf server.key /etc/pki/tls/private
+    
+*--------------------create default SSL.conf file--------------------*
+
+    #vim /ets/httpd/conf.d/ssl.conf
+    
+    SSLCertificateFile /etc/pki/tls/certs/server.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/server.key
+    wq
+
+*--------------------create configuration file--------------------*
+
+    #vim /etc/httpd/conf.d/httpd.conf
+    
+    <VirtualHost *:443>
+    SSLEngin on
+    SSLCertificateFile /etc/pki/tls/certs/server.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/server.key
+    ServerName server1.redhat.com
+    Documentroot /var/www/html
+    </VirtualHost>
+    
+    :wq
+
+*--------------------verify and restart service--------------------*
+
+    #httpd -t
+    #systemctl restart httpd
+    
+*--------------------open firefox and verify--------------------*
+
+    https://192.168.1.10
+    https://server1.redhat.com
