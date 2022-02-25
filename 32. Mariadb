@@ -1,0 +1,200 @@
+*--------------------Mariadb--------------------*
+
+    MariaDB is a free and open source database management system. It acts as a drop replacement for Oracle MySQL server. It is a community drive and developed branch of Oracle MySQL. MariaDB is a multi-user,
+    multi-threaded SQL database server.
+    It is a fork of famous database server MySQL, developed by MariaDB Corporation Ab, led by original developers of MySQL.
+    A relational Database is a mechanism that allows persistence data in organized way.
+    Databases data item organized as set of tables which table represent an entity in a given tables column correspondence to an attribute of that record.
+    
+    
+*--------------------Install Packages--------------------*
+
+    #yum install mariadb mariadb-server
+    
+    
+*--------------------Start and enable service--------------------*
+
+    #systemctl start mariadb.service
+    #systemctl restart mariadb.service
+    #systemctl status mariadb.service
+    #systemctl enable mariadb.service
+    
+    
+*--------------------Set firewall rule--------------------*
+
+    #firewall-cmd --permanent --add-service=mysql
+    #firewall-cmd --reload
+    
+    
+
+*--------------------secure the MariaDB server--------------------*
+
+    For login into database
+    #mysql -u root
+    >show databases;
+    >exit;
+    
+    Note:
+    If we want secure installation of database perform following command
+    
+    #mysql_secure_installation
+    
+    
+*--------------------login in the mysql--------------------*
+
+    #mysql -u root -p
+    
+    > show databases;
+    > exit
+    
+
+*--------------------add databse on the MariaDB Server--------------------*
+
+    log in as root user:
+    
+    #mysql -u root -p
+    
+    Create a new MariaDB database called mydb1. Type the following command
+    
+    >create database mydb1;
+    
+    >show databases;
+    
+    
+*--------------------add users on the MariaDB Server--------------------*
+
+    Create a new user called suraj for database called mydb1:
+    
+    >grant all on mydb1.* to suraj@localhost identified by 'secretpassword';
+    
+    >exit
+    
+    
+*--------------------connect to the MariaDB database using suraj account--------------------*
+
+    #mysql -u suraj -p
+    >show databases;
+    >exit
+    
+    
+*--------------------create a databse, tables, and insert data--------------------*
+
+     CREATE DATABASE –
+        To Create database.
+     CREATE TABLE –
+       To Create the table.
+     INSERT –
+        To add/insert data to table i.e. inserts new rows into an existing table.
+        
+        
+*--------------------create a databse, tables, and insert data--------------------*
+
+    #mysql -u root -p
+    
+    Sample outputs:
+       MariaDB [(none)]>
+       
+       
+*--------------------add a database books--------------------*
+
+    MariaDB [(none)]> create database books;
+    MariaDB [(none)]> show databases;
+    
+    
+*--------------------now, databse is created. use a databse with use command--------------------*
+
+    MariaDB [(none)]> use books;
+    MariaDB [(books)]>
+    
+    
+*--------------------create a table called students with id, name & email fields:--------------------*
+
+    MariaDB[(books)]> create table students (id INT, name
+    VARCHAR(20), email VARCHAR(20));
+    
+    
+*--------------------to display your tables in books databse--------------------*
+
+    MariaDB[(books)]> show tables; 
+    
+    
+*--------------------sample outputs--------------------*
+
+    +-----------------+
+    | Tables_in_books |
+    +-----------------+
+    |    students     |
+    +-----------------+
+    1 row in set (0.00 sec)
+    
+*--------------------finally, add a data i.e. row to table books using INSERT statement--------------------*
+
+    MariaDB[(books)]> insert into students (id,name,email)
+    values(1,“Karan",“karan@live.com");
+    
+    
+*--------------------sample outputs--------------------*
+
+    Query OK, 1 row affected (0.00 sec)
+    
+
+*--------------------try to add few more rows to your table--------------------*
+
+    MariaDB[(books)]> insert into students (id,name,email) values(2,"Priya","priya@gmail.com");
+    MariaDB[(books)]> insert into students (id,name,email) values(3,“Sachin",“sachin@yahoo.com");
+    
+    
+*--------------------to display all rows i.e. data stored in students table--------------------*
+
+    MariaDB[(books)]> select * from students;
+    
+    
+*--------------------sample outputs--------------------*
+
+    +------+-------+---------------------+
+    | id | name   | email                 |
+    +------+-------+---------------------+
+    | 1 | Kiran   | kiran@live.com        |
+    | 2 | Priya   | priya@gmail.com       |
+    | 3 | Sachin  | sachin@yahoo.com      |
+    +------+-------+----------------------+
+    3 rows in set (0.00 sec)
+
+    MariaDB[(books)]>exit
+    
+    
+*---------------------backup database-------------------*
+
+    #mysqldump -u root -p books > /root/booksdb.sql
+    #cd /root
+    #ls
+    #cat booksdb.sql
+    
+    
+*---------------------delete database-------------------*
+
+    #mysql -u root -p
+    >drop database books;
+    >show databases;
+    >exit
+    
+    
+*---------------------restore database-------------------*
+
+    #mysql -u root -p
+    >create database books;
+    >show databases;
+    >use books;
+    >show tables;
+    >quit
+    For restore database
+    #mysql -u root -p books < /root/booksdb.sql
+    
+    
+*---------------------for verify-------------------*
+
+    #mysql -u root -p
+    > use books;
+    > show tables;
+    > select * from students;
+    > quit
