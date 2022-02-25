@@ -1,0 +1,105 @@
+*--------------------samba server configuration--------------------*
+
+    Samba provides server and client software to allow file sharing between Linux and Windows machines.
+    Samba is a free software re-implementation of the SMB networking protocol, and was originally developed by Andrew Tridgell.
+    Samba provides file and print services for various Microsoft Windows clients and can integrate with a Microsoft Windows Server domain, either as a Domain Controller (DC) or as a domain member.
+    The project provides both server and client software to allow interoperation with Windows machines, representing the ideal solution in mixed environments.
+    
+    
+*--------------------Install Package--------------------*
+    
+        #yum install samba samba-common samba-client
+        
+        
+
+*--------------------start & enable service--------------------*       
+
+    #systemctl start smb nmb
+    #systemctl enable smb nmb
+    
+    
+*--------------------firewall--------------------*
+
+    #firewall-cmd --permanent --add-service=samba
+    #firewall-cmd --reload
+    
+    
+
+*--------------------create data to share--------------------*
+
+    #mkdir /sambadir
+    #touch /sambadir/notes{1..10}.txt
+    
+    For Set SELinux Context:
+    
+    #ls -ldZ /sambadir
+    #semanage fcontext -a -t samba_share_t "/sambadir(/.*)?"
+    
+    #restorecon -Rv /sambadir
+    #ls -ldZ /sambadir
+    
+    
+*--------------------setup configuration file--------------------*
+
+    #vim /etc/samba/smb.conf
+    
+    [data]
+    comment = data share
+    path = /sambadir
+    browseable = yes
+    valid users = susan
+    read only =yes
+    hosts allow = 192.168.1. (ifconfig and get your ip and only use the 3 octets)
+    
+    :wq
+    
+    
+
+*--------------------add samba password--------------------*
+
+    #useradd susan
+    #smbpasswd –a susan
+    Password
+    #systemctl restart smb nmb
+    
+    
+*--------------------client configuration--------------------*
+
+    #yum -y install cifs-utils samba-client
+    #mkdir -p /mnt/smbspace
+    
+    Access share by samba service
+    #smbclient //192.168.1.2/data -U susan
+    
+    Or
+    #mount -t cifs //192.168.1.2/data /mnt/sambaspace -o
+    username=susan
+    
+    
+*--------------------client configuration (Permanent mount)--------------------*
+
+    For Permanent Mount
+    #vim /etc/fstab
+    //192.168.1.2/data /mnt/smbspace cifs credentials=/mnt/auth.txt,defaults
+    0 0
+    :wq
+    
+    Create credential file
+    #vim /mnt/auth.txt
+    username=susan
+    Password=123
+    :wq
+    
+    #chmod 600 /mnt/auth.txt
+    #mount -a
+    #mount
+
+
+*--------------------client configuration (windows)--------------------*
+
+    For Windows Operating System:
+    Press “Win+r”
+    
+    \\192.168.1.2\data
+    
+    Provide Credentials username and password
