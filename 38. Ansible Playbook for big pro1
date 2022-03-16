@@ -1,0 +1,104 @@
+-
+ name: play1
+ hosts: client
+ remote_user: root
+ vars:
+	service_name: httpd
+	project_root: /var/www/html
+	file_name: index.html
+ tasks:
+	- name: install apache webserver package
+	yum:	
+		name: {{ service_name}} 
+		state: present
+	-name: transfer index file source to dest
+	copy:
+		src: /root/index.html
+		dest: /var/www/html/
+		owner: root
+		group: root
+		mode: '0644'
+	- name: enable httpd service
+	service:
+		name: {{ service_name }}
+		enabled: yes
+	- name: restart httpd service
+	service:
+		name: {{ service_name }}
+		state: restarted
+	- name: Open port 80 for http access
+   	 firewalld:
+    		  service: http
+     		 permanent: true
+     		 state: enabled
+	  - name: Restart the firewalld service to load in the firewall changes
+  	  service: 
+   		   name: firewalld 
+   		   state: restarted
+
+
+-
+ name: play1
+ hosts: client
+ remote_user: root
+ vars: 
+	status: disabled
+ tasks:
+	- name: change selinux mode from file
+	lineinfile:
+	path: /etc/selinux/config
+	regexp: ‘^SELINUX=‘
+	line: 'SELINUX={{ status }}'
+
+
+
+
+
+for ping all host
+- 
+  name: play1
+  hosts: all
+  remote_user: root
+  tasks:
+  	  - name: Ping all hosts
+     	  ping:
+
+
+
+
+
+
+
+
+
+
+
+
+-
+ name: play1
+  hosts: clients
+  remote_user: root
+  tasks:
+  	- name: Install apache packages 
+   	 yum:
+    		  name: httpd
+     		 state: present
+ 	 - name: ensure httpd is running
+  	  service:
+    		  name: httpd 
+      		state: started
+  	- name: Open port 80 for http access
+   	 firewalld:
+    		  service: http
+     		 permanent: true
+     		 state: enabled
+	  - name: Restart the firewalld service to load in the firewall changes
+  	  service: 
+   		   name: firewalld 
+   		   state: restarted
+
+
+
+
+
+
