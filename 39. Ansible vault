@@ -1,0 +1,75 @@
+*--------------------Ansible Vault--------------------*
+
+    > Ansible use SSH private and public keys, passwords, and SSL certificates to transfer file from server to client.
+    > As we already know, its bad practice to save this sensitive information in plain text for obvious reasons. This information requires to be kept under lock and key because
+      we can only imagine what would happen if hackers or unauthorized users got a hold of it.
+    > Ansible provides us with a handy feature known as Ansible Vault. As the name suggests, the Ansible Vault helps secure vital secret information.
+    > Ansible Vault can encrypt variables, or even entire files and YAML playbooks as we shall later demonstrate.
+    > It’s a very handy and user-friendly tool that requires the same password when encrypting and decrypting files
+    
+    
+*--------------------how to create an encrypted file in ansible--------------------*
+
+    > if you want to create an encrypted Playbook file simply use the ansible-vault create command and provide the filename as shown.
+        #sudo chmod 777 /etc/ansible
+        #sudo chmod 666 /etc/ansible/test.yml
+        # ansible-vault create filename
+        
+    > For example, to create an encrypted file mysecrets.yml execute the command.
+        # ansible-vault create mysecrets.yml
+        
+    >  You will thereafter be prompted for a password, and after confirming it, a new window will open using the vim editor where you can begin writing your plays. 
+    
+    > Create an Encrypted File in Ansible Below is a sample of some information. Once you are done simply save and exit the playbook. And that’s just about it when creating an encrypted file.
+    
+    
+    
+*--------------------to verify the file encryption, use the cat command as shown--------------------*
+
+    #cat mysecrets.yml 
+    
+*--------------------verify the playbook for syntax error--------------------*
+
+    To check the syntax error, run the following command. If it finds no
+    error, it only shows the given file name. If it detects any error, you will get an error as follows, 
+
+           $ansible-playbook test.yml --syntax
+           
+           
+*--------------------how to view encrypted file in ansible--------------------*
+
+    > If you want to view an encrypted file, simply pass the ansible-vault view command as shown below.
+                # ansible-vault view mysecrets.yml
+
+    > Once again, you will be prompted for a password. Once again, you will have access to your information.
+    
+    
+*--------------------how to edit encrypted file in ansible--------------------*
+
+    > To make changes to an encrypted file use the ansible-vault edit command as shown.
+    > # ansible-vault edit mysecrets.yml
+    > As always, provide the password and thereafter proceed editing the file.
+    
+    
+*--------------------how to change ansible vault password--------------------*
+
+    > In case you feel the need to change the Ansible vault password, you can easily do so using the ansible-vault rekey command as shown below.
+    > # ansible-vault rekey mysecrets.yml
+    > This prompts you for the vault password and later requests you to enter the new password and later confirm it.
+    
+    
+
+*--------------------how to encrypt an unencrypt file in ansible--------------------*
+
+    > Suppose you want to encrypt an unencrypted file, you can do so by running the ansible-vault encrypt command as shown.
+        # ansible-vault encrypt classified.txt
+        
+*--------------------how to decrypt an encripted file--------------------*
+
+    To view the contents of an encrypted file, simply decrypt the file using the ansible-vault encrypt as illustrated in the example below.
+        # ansible-vault decrypt classified.txt
+        
+*--------------------how to decrypt a playbook file during runtime--------------------*
+
+    > If you have a playbook file and want to decrypt it during runtime, use the --ask-vault-pass option as illustrated.
+        $ansible-playbook deploy.yml --ask-vault-pass -i hosts
