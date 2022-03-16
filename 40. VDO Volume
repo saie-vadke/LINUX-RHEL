@@ -1,0 +1,106 @@
+*-------------------- VDO Volume--------------------*
+
+    > Introduced by RedHat in RHEL 7.5 and later, VDO short for Virtual Data Optimizer is a block virtualization technology that provides inline deduplication and compression of data at a block device level. 
+    > The idea of deduplication is quite simple: to remove copies of duplicate data and only remain with one copy. When an identical file is added on a block device, 
+       it is marked as a duplicate and the original file is referenced instead. In so doing, VDOhelps is saving the block volume’s space.
+       
+
+*-------------------- Install VDO --------------------*
+
+    # yum install kmod-kvdo vdo
+    
+  > Vdo
+    – This is a set of Management tools for Virtual Data Optimizer.
+    
+  > kmod-kvdo – 
+    - This is a group of Kernel Modules for Virtual Data Optimizer.
+    
+    
+*-------------------- start, enable and verify the vdo daemon--------------------*
+
+    # sudo systemctl start vdo
+    # sudo systemctl enable vdo
+    # sudo systemctl status vdo
+    
+*-------------------- create VDO volume --------------------*'
+
+    > Before creating a vdo volume, ensure that you have an additional hard drive on your system. we have attached an additional volume sdc
+       # lsblk
+    > From the output, you can clearly see that the second disk has a capacity of 10GB.  Now, we create any empty VDO volume on /dev/xvdb disk.
+       #vdo create --name=testvdo1 --device=/dev/sdc --vdoLogicalSize=10G This is a common bug and the workaround is to simply reboot your server.
+        #reboot
+        
+        
+*-------------------- understand what optioned used--------------------*'
+
+  #vdo create --name=testvdo1 --device=/dev/sdc --vdoLogicalSize=10G option used:
+  
+    > create – This initiates the creation of the VDO volume.
+    > –name=testvdo1 – This gives the volume a label known as testvdo1. Feel free to assign any name of your choice.
+    > –device=/dev/sdc – The device option specifies the disk on which the volume will be created.
+    > –vdoLogicalSize=10G – This indicates the effective volume capacity to be used by the operating system, in this case, 10G.
+    
+    
+*-------------------- for show vdo volume--------------------*
+
+    The new VDO volume has been created
+      > vdostats command to retrieve statistics on the size and the usage of the volume.
+          # vdostats --hu
+      > The --hu flag displays the information in a human-readable format
+      
+*-------------------- probing the new vdo volume--------------------*
+
+     # vdostats --verbose /dev/mapper/testvdo1
+
+> Also, note that already we have some volume usage 4Gwhich yet we haven’t written anything on the volume. Why is that?
+> This is because the universal Deduplication has already been written onto the disk and it is what makes deduplication possible.
+> The vdostats vdostats command can be used with the command can be used with the --verbose verbose flag to flag to retrieve more detailed information.
+
+
+*--------------------partitioning vdo volume--------------------*
+
+    > After obtaining enough insights from the volume, we need to partition it and later create a file system so that it can be used as a normal disk.
+    > Let’s create a physical volume and volume group as shown, run the following commands. 
+        # mkdir /vdotestvol1
+    > For create file system
+        #mkfs.xfs -K /dev/mapper/testvdo1
+    > For permanent mount
+        # vim /etc/fstab
+        /dev/mapper/testvd1 /testvdovol1 xfs x-systemd,requires=vdo.service0 0
+        :wq
+        #mount -a
+        #vdostats --hu
+        #df -h
+        
+        
+*--------------------LVM configurtion in the VDO Volume--------------------*
+
+    > Create a physical volume and volume group as shown, run the following commands.
+    > #pvcreate /dev/mapper/testvdo1
+    > #vgcreate engineering /dev/mapper/testvdo1
+    > To display the statistics of the volume group run:
+    > #vgdisplay engineering
+    > Now, we will create 2 equally sized logical volumes each with a
+      capacity of 1G.  #lvcreate -L 500 –n /dev/engineering/comp1
+    > You can later view the stats of the newly created volumes by running the command.
+    > # lvs
+    
+    
+*--------------------formatting and Mounting file system--------------------*
+
+    > Usually, when a file system is created, a trim operation is carried out on the device. This is undesirable in the case of
+      the VDO. When formating using the mkfs command, use the -K option to instruct the command not to discard blocks during the creation for the filesystem.
+    > # mkfs.xfs -K /dev/engineering/comp
+    > If you are using EXT* filesystem, use the “-E nodiscard”
+    Option.
+    > Create the mount points for mounting the volumes:
+    > # mkdir /data/comp1 
+    
+    
+*--------------------Mount file system--------------------*   
+
+          #mount -o discard /dev/engineering/comp /data/comp1
+    > Now when you inspect the VDO volume you’ll notice that the % saving has changed to 99% which is quite impressive. This implies that deduplication is working as expected.
+          # vdostats –-hu
+    > You can further investigate using the df -h command. At the bottom section, you’ll see the filesystems mounted on /data/v01 and /data/v02 respectively.
+          # df -h
